@@ -1,20 +1,24 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<conio.h>
 #include<process.h>
+#include<string.h>
+#define LSIZ 128
+#define RSIZ 10
 int i,j,ec,fg,ec2;
+char cap[100];
 char fn[20],e,c;
 FILE *fp1,*fp2,*fp;
 void Create();
 void Append();
 void Delete();
 void Display();
-void main()
+int main()
 {
  do {
-  clrscr();
   printf("\n\t\t***** TEXT EDITOR *****");
   printf("\n\n\tMENU:\n\t-----\n ");
-  printf("\n\t1.CREATE\n\t2.DISPLAY\n\t3.APPEND\n\t4.DELETE\n\t5.EXIT\n");
+  printf("\n\t1.CREATE\n\t2.DISPLAY\n\t3.APPEND\n\t4.DELETE\n\t5.Capitalize\n\t6.Copy\n\t7.Exit\n\t");
   printf("\n\tEnter your choice: ");
   scanf("%d",&ec);
   switch(ec)
@@ -32,9 +36,20 @@ void main()
      Delete();
      break;
    case 5:
+     //to_array();
+
+     //printf("%s",cap);
+     Capitalize();
+     break;
+   case 6:
+       copy();
+       break;
+
+   case 7:
      exit(0);
   }
  }while(1);
+ return 0;
 }
 void Create()
 {
@@ -139,3 +154,97 @@ void Append()
 end3: fclose(fp1);
   getch();
 }
+
+void to_array(){
+    char line[RSIZ][LSIZ];
+	char fname[20];
+    FILE *fptr = NULL;
+    int i = 0;
+    int tot = 0;
+    printf("\n\n Read the file and store the lines into an array :\n");
+	printf("------------------------------------------------------\n");
+	printf(" Input the filename to be opened : ");
+	scanf("%s",fname);
+
+    fptr = fopen(fname, "r");
+    while(fgets(line[i], LSIZ, fptr))
+	{
+        line[i][strlen(line[i])] = '\0';
+        i++;
+    }
+    tot = i;
+	printf("\n The content of the file %s  are : \n",fname);
+    for(i = 0; i < tot; ++i)
+    {
+        printf(" %s\n", line[i]);
+    }
+     printf("\n");
+    return 0;
+}
+void copy(){
+   char ch, source_file[20], target_file[20];
+   FILE *source, *target;
+
+   printf("Enter name of file to copy\n");
+   scanf("%s",source_file);
+
+   source = fopen(source_file, "r");
+
+   if (source == NULL)
+   {
+      printf("Press any key to exit...\n");
+      exit(EXIT_FAILURE);
+   }
+
+   printf("Enter name of target file\n");
+   scanf("%s",target_file);
+
+   target = fopen(target_file, "w");
+
+   if (target == NULL)
+   {
+      fclose(source);
+      printf("Press any key to exit...\n");
+      exit(EXIT_FAILURE);
+   }
+
+   while ((ch = fgetc(source)) != EOF)
+      fputc(ch, target);
+
+   printf("File copied successfully.\n");
+
+   fclose(source);
+   fclose(target);
+
+   return 0;
+
+}
+
+void Capitalize(){
+         FILE*f1;
+        // char arr_1[100];
+         //int i=1;
+         char ch,fname[20],d;
+         f1=fopen(fname,"w");
+         printf("\nEnter File Name :");
+         scanf("%s",& fname);
+         f1=fopen(fname,"r");
+         if(f1==NULL)
+            {
+                  printf("File can't be Opened");
+                  exit(0);
+             }
+                  while(ch!=EOF)
+                         {
+                               d=toupper(ch);
+                               printf("%c",d);
+                               ch=fgetc(f1);
+                         }
+           //                printf("%s",arr_1);
+                              fclose(f1);
+                              getch();
+
+
+}
+
+
